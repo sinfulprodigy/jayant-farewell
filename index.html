@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Miss Atlassian?</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Coming+Soon&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Coming Soon', cursive;
+            background: #B4D4FF;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 60px 40px;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 90%;
+        }
+
+        .emoji {
+            width: 200px;
+            height: auto;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 36px;
+            color: #333;
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+
+        .subtext {
+            font-size: 18px;
+            color: #6B778C;
+            margin-bottom: 40px;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            align-items: center;
+            margin-top: 40px;
+            position: relative;
+            min-height: 80px;
+        }
+
+        button {
+            font-family: 'Coming Soon', cursive;
+            font-size: 24px;
+            padding: 10px 32px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background 0.2s ease, box-shadow 0.2s ease;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+
+        .yes-btn {
+            background: #0052CC;
+            color: white;
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+            transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.3s ease;
+        }
+
+        .yes-btn:hover {
+            background: #0747A6;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+        }
+
+        .yes-btn:active {
+            background: #0747A6;
+            box-shadow: none;
+        }
+
+        .no-btn {
+            background: #DE350B;
+            color: white;
+            position: relative;
+            transition: all 0.15s ease-out;
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+        }
+
+        .no-btn:hover {
+            background: #BF2600;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+        }
+
+        .no-btn:active {
+            background: #BF2600;
+            box-shadow: none;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            text-align: center;
+            max-width: 400px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-content p {
+            font-size: 24px;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .modal-button {
+            font-family: 'Coming Soon', cursive;
+            font-size: 20px;
+            padding: 12px 40px;
+            background: #0052CC;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: background 0.2s ease;
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-button:hover {
+            background: #0747A6;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 36px;
+            }
+
+            .emoji {
+                font-size: 80px;
+            }
+
+            button {
+                font-size: 24px;
+                padding: 12px 30px;
+            }
+
+            .button-container {
+                gap: 20px;
+            }
+
+            .modal-content {
+                padding: 30px;
+                max-width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="image.png" alt="Sad frog" class="emoji">
+        <h1>will you miss atlassian?</h1>
+        <p class="subtext">(try clicking no)</p>
+        <div class="button-container">
+            <button class="yes-btn" onclick="handleYes()">yes</button>
+            <button class="no-btn" id="noBtn">no</button>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="yesModal">
+        <div class="modal-content">
+            <p>We'll miss you too, Jayant! 💙</p>
+            <a href="https://www.groupgreeting.com/card/12eca18532c7a39/delivered" class="modal-button">continue</a>
+        </div>
+    </div>
+
+    <script>
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.querySelector('.yes-btn');
+        const container = document.querySelector('.button-container');
+        
+        // Initialize button position
+        let currentX = 0;
+        let currentY = 0;
+        let maxYesScale = 1; // Track the maximum scale the yes button has reached
+
+        // Track mouse position globally to check distance to no button
+        document.addEventListener('mousemove', (e) => {
+            const rect = noBtn.getBoundingClientRect();
+            const btnCenterX = rect.left + rect.width / 2;
+            const btnCenterY = rect.top + rect.height / 2;
+            
+            // Calculate distance from cursor to no button center
+            const distanceX = e.clientX - btnCenterX;
+            const distanceY = e.clientY - btnCenterY;
+            const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+            
+            // Calculate scale based on distance (closer = bigger)
+            // Max distance to consider: 200px
+            // Min scale: 1, Max scale: 2
+            const maxDistance = 200;
+            let scale = 1;
+            
+            if (distance < maxDistance) {
+                // Inverse relationship: closer = bigger
+                const proximity = 1 - (distance / maxDistance);
+                scale = 1 + (proximity * 1); // Scale from 1 to 2
+            }
+            
+            // Update max scale if this is bigger
+            if (scale > maxYesScale) {
+                maxYesScale = scale;
+            }
+            
+            // Apply the max scale reached
+            yesBtn.style.transform = `scale(${maxYesScale})`;
+        });
+
+        // Track mouse globally to make button more responsive
+        document.addEventListener('mousemove', (e) => {
+            const rect = noBtn.getBoundingClientRect();
+            const btnCenterX = rect.left + rect.width / 2;
+            const btnCenterY = rect.top + rect.height / 2;
+            
+            // Calculate distance from cursor to button center
+            const distanceX = e.clientX - btnCenterX;
+            const distanceY = e.clientY - btnCenterY;
+            const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+            
+            // If cursor is close enough, move the button away
+            if (distance < 120) {
+                moveButtonAway(e.clientX, e.clientY, rect);
+            }
+        });
+
+        noBtn.addEventListener('mouseenter', (e) => {
+            const rect = noBtn.getBoundingClientRect();
+            moveButtonAway(e.clientX, e.clientY, rect);
+            // Reset the yes button scale when trying to click no again
+            maxYesScale = 1;
+        });
+
+        function moveButtonAway(mouseX, mouseY, btnRect) {
+            const btnCenterX = btnRect.left + btnRect.width / 2;
+            const btnCenterY = btnRect.top + btnRect.height / 2;
+            
+            // Calculate direction away from cursor
+            let deltaX = btnCenterX - mouseX;
+            let deltaY = btnCenterY - mouseY;
+            
+            // Normalize and amplify the movement
+            const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+            const moveDistance = 150;
+            
+            let moveX = (deltaX / distance) * moveDistance;
+            let moveY = (deltaY / distance) * moveDistance;
+            
+            // Calculate potential new position
+            let newX = currentX + moveX;
+            let newY = currentY + moveY;
+            
+            // Get viewport dimensions
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+            const containerRect = container.getBoundingClientRect();
+            
+            // Check if button would go out of bounds
+            const btnWidth = btnRect.width;
+            const btnHeight = btnRect.height;
+            const futureLeft = containerRect.left + newX - btnWidth / 2;
+            const futureRight = containerRect.left + newX + btnWidth / 2;
+            const futureTop = containerRect.top + newY - btnHeight / 2;
+            const futureBottom = containerRect.top + newY + btnHeight / 2;
+            
+            // If hitting boundaries, add perpendicular movement and reduce movement in that direction
+            if (futureLeft < 50 || futureRight > viewportWidth - 50) {
+                moveX = moveX * -0.5; // Bounce back
+                moveY = moveY * 1.5; // Increase perpendicular movement
+            }
+            
+            if (futureTop < 50 || futureBottom > viewportHeight - 50) {
+                moveY = moveY * -0.5; // Bounce back
+                moveX = moveX * 1.5; // Increase perpendicular movement
+            }
+            
+            currentX += moveX;
+            currentY += moveY;
+            
+            // Keep button within reasonable bounds (but larger area)
+            const maxMove = 500;
+            currentX = Math.max(-maxMove, Math.min(maxMove, currentX));
+            currentY = Math.max(-maxMove, Math.min(maxMove, currentY));
+            
+            noBtn.style.transform = `translate(${currentX}px, ${currentY}px)`;
+        }
+
+        function handleYes() {
+            const modal = document.getElementById('yesModal');
+            modal.classList.add('active');
+        }
+
+        // Close modal when clicking outside of it
+        const modal = document.getElementById('yesModal');
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+            }
+        });
+
+        noBtn.addEventListener('click', () => {
+            alert("Nice try! But we know you'll miss us! 😄");
+        });
+    </script>
+</body>
+</html>
